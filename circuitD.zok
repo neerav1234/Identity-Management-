@@ -1,0 +1,22 @@
+import "hashes/sha256/256bitPadded" as sha256;
+// proof to circuitD will be submitted by the validators
+
+def check_PKvi(u32[8] SKvi, u32[8] PKvi)->bool{
+    bool ok=true;
+    return ok;
+}
+
+def check_si(u32[8] SKvi, u32[8] ci, u32[8] si)->bool{
+    bool ok=true;
+    return ok;
+}
+
+def main(u32[8] SKvi,
+         u32[8] ci,
+         u32[8] si,
+         u32[8] PKvi)->bool{
+            bool mut ok=true;
+            ok=ok&&check_PKvi(SKvi,PKvi);
+            ok=ok&&check_si(SKvi,ci,si);
+            return ok;
+}

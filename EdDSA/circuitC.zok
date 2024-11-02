@@ -1,0 +1,151 @@
+import "hashes/sha256/256bitPadded" as sha256;
+// import "./zok_utilities/hashing.zok" as hashing;
+// // // import "./512bitPadded" as sha256_2p;  // two parameter hash(256,256)
+
+
+// // def main(
+// //                     private u32[8] m, 
+// //                     private field r,
+// //                     private field[2] P,    // P[k1] is array of size (k-1) for sss
+// //                     private field[5] Q,    // Q of length t = 5
+// //                     private u32[5][8] X,    // X of length t = 5
+// //                     private (field, field) cert,
+// //                     u32[8] h,
+// //                     field PKip,
+// //                     field[5] C,            // C of length n = 5
+// //                     field[5] PKvn,         // PKvn of length n = 5
+// //                     field[5] Y) -> bool {    // Y of length t = 5
+// //                         bool mut bc = true; // decision bit
+// //                         u32[8] h1 = sha256(m);
+// //                         bc = (bc&&(h1==h));
+// //                         u32[8] mut root1 = sha256(h1);
+// //                         for u32 i in 0..4 {
+// //                             u32[8] temp = sha256(X[i]);
+// //                             for u32 j in 0..7{
+// //                                 root1[j] = root1[j]^temp[j];
+// //                             }
+// //                         }
+// //                         log("x is {}, y is {}", root1, root1);
+// //                         return bc;
+// //                     }
+
+
+
+// // ####################### verifying ########################
+// // # h = hashing(R[0] + publicKey[0] + message) % p
+// // # P1 = applyDoubleAndAddMethod(base, s, a, d, p)
+// // # P2 = pointAddition(R, applyDoubleAndAddMethod(publicKey, h, a, d, p), a, d, p)
+// // # if(P1==P2):
+// // #    print("Verified")
+// // # else:
+// // #    print("Could not be verified")
+
+// //R == {R1, R2}, PKip = {PKip1, PKip2}
+
+
+
+// def u32tofield(u32[8] x) {
+//     field y = 0;
+//     for u32 i in 0..8 {
+//         y = y + x[7-i] * (2**(32*i));
+//     }
+//     return y;
+// }
+// def fieldtou32(field x) {
+//     u32[8] mut y;
+//     for u32 i in 0..8 {
+//         y[7-i] = x / (2**(32*i));
+//         x = x%(2**(32*i));
+//     }
+//     return y;
+// }
+
+def xor_256(u32[8] a, u32[8] b)->u32[8]{   // helper function to take xor of two 256 bit numbers
+    u32[8] mut temp=a;
+    for u32 j in 0..7{
+        temp[j] = a[j]^b[j];
+    }
+    return temp;
+}
+
+def verify_sign(u32[8] root, u32[8] R, u32[8] s, u32[8] PKip)->bool{
+    field p = (2**255) - 19;
+    u32[8] h = xor_256(xor_256(sha256(R),sha256(PKip)),sha256(root));
+    bool ok=true;
+    return ok;
+}
+
+def check_m(field m)->bool {
+    bool ok=true;
+    return ok;
+}
+
+def check_ei(u32[5][8] pia)->bool{
+    bool ok=true;
+    return ok;
+}
+def generate_shares(u32[8] ei)->u32[8]{
+    u32[8] mut si=ei;
+    return si;
+}
+def encrypt(u32[8] si, u32[8] PKvi)->u32[8]{
+    // u32[8] ci=hashing(si+PKvi);
+    u32[8] ci=xor_256(sha256(si),sha256(PKvi));
+    return ci;
+}
+def check_encrypted_shares(u32[8] ei, u32[5][8] PKvn, u32[5][8] ci)-> bool{
+    bool mut ok=true;
+    bool ok1=true;
+    u32[8] si=generate_shares(ei);
+    for u32 i in 0..4 {
+        ok = if(encrypt(si,PKvn[i])==ci[i]) {true} else {false};
+    }
+    return ok1;
+}
+def check_y(u32[5][8] X, u32[5][8] Q, u32[5][8] Y)->bool{
+    bool mut ok=true;
+    for u32 i in 0..4 {
+        // u32[8] temp=hashing(X[i]+Q[i]);
+        u32[8] temp=xor_256(sha256(X[i]),sha256(Q[i]));
+        ok = if(Y[i]==temp) {false} else {true};
+    }
+    return ok;
+}
+
+
+// cert = {R,s}
+def main(field m, 
+         field r, 
+         field[2] P,   // P[k1] is array of size (k-1) for sss
+         u32[5][8] Q,   // Q of length t = 5
+         u32[5][8] X,  // X of length t = 5
+         u32[8] h, 
+         u32[8] R, u32[8] s, 
+         u32[8] PKip, 
+         u32[5][8] C, // C of length n = 5
+         u32[5][8] PKvn, // PKvn of length n = 5
+         u32[5][8] Y)->bool{
+    bool mut ok=true;
+    // u32[8] ei=xor_256(xor_256(xor_256(xor_256(sha256(X[0]),sha256(X[1])),sha256(X[2])),sha_256(X[3])),sha_256(X[4]));
+    u32[8] mut temp=[0,0,0,0,0,0,0,0];
+    for u32 i in 0..5 {
+        temp = xor_256(temp,sha256(X[i]));
+    }
+    u32[8] mut ei = temp;
+    u32[8] mut root1 = sha256(h);
+    for u32 i in 0..5 {
+        u32[8] temp = sha256(X[i]);
+        for u32 j in 0..8{
+            root1[j] = root1[j]^temp[j];
+        }
+    }
+    log("ei is: {}", ei);
+    ///////////////////////////
+    ok=ok&&check_m(m);
+    ok=ok&&verify_sign(root1,R,s,PKip);
+    ok=ok&&check_ei(X);
+    ok=ok&&check_encrypted_shares(ei, PKvn, C);
+    ok=ok&&check_y(X,Q,Y);
+    return ok;
+}
+

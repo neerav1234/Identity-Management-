@@ -1,0 +1,41 @@
+### export PATH=$PATH:/home/neerav/.zokrates/bin
+
+
+The edward curve used throughout the project is ecc25519.
+
+In Zokrates we used 64 bit integers, so to make it compatible we have to do that everywhere
+
+All big numbers are 256 bits in size
+
+User has to encrypt his sss shares individually and he will get a n random numbers for n shares which he is expected to pass to circuit C.
+
+(k, n) SSS: (3, 5), k threshold, n shares
+t : 5, number of max IAs allowed per user
+
+u32[8] root1 = sha256(h1);
+                        for u32 i in 0..4 {
+                            root1 = temp^sha256(X[i]);
+                        }
+// our hashing algorithm for hashing 5 Xts using xor
+
+///////////////////////////////////////////////////////
+In circuitC.zok, we have private inputs and public inputs in the main function. Inside the main function, we have
+to formulate our checks on the private variables as 'assert(var=='some value')'. Each private variable has to have an assert statement. The proof will be generated after all these assertions have been checked. The main function does not return a bool value, so this is the way the conditions are checked. Or we can simply for now declare all
+variables as public to get rid of having so many necessary asserts.
+
+///////////////////////////////////////////////////////
+if condition in zokrates always returns a value depending on the condition so there must be some variable to catch it.
+
+///////////////////////////////////////////////////////
+TODO
+1. User module containing all user actions linked to the appropriate functions
+2. Smart Contract
+3. Python helper module to convert normal integer input into u32[8]
+4. Frontend work start.
+
+
+
+///////////////////////////////////////////////////////
+Public Information
+1. Distribute {PKC , VKC } and {PKD , VKD } to users.
+2. Smart Contract Address

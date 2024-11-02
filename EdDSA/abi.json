@@ -1,0 +1,127 @@
+{
+  "inputs": [
+    {
+      "name": "m",
+      "public": true,
+      "type": "field"
+    },
+    {
+      "name": "r",
+      "public": true,
+      "type": "field"
+    },
+    {
+      "name": "P",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 2,
+        "type": "field"
+      }
+    },
+    {
+      "name": "Q",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "array",
+        "components": {
+          "size": 8,
+          "type": "u32"
+        }
+      }
+    },
+    {
+      "name": "X",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "array",
+        "components": {
+          "size": 8,
+          "type": "u32"
+        }
+      }
+    },
+    {
+      "name": "h",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 8,
+        "type": "u32"
+      }
+    },
+    {
+      "name": "R",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 8,
+        "type": "u32"
+      }
+    },
+    {
+      "name": "s",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 8,
+        "type": "u32"
+      }
+    },
+    {
+      "name": "PKip",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 8,
+        "type": "u32"
+      }
+    },
+    {
+      "name": "C",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "array",
+        "components": {
+          "size": 8,
+          "type": "u32"
+        }
+      }
+    },
+    {
+      "name": "PKvn",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "array",
+        "components": {
+          "size": 8,
+          "type": "u32"
+        }
+      }
+    },
+    {
+      "name": "Y",
+      "public": true,
+      "type": "array",
+      "components": {
+        "size": 5,
+        "type": "array",
+        "components": {
+          "size": 8,
+          "type": "u32"
+        }
+      }
+    }
+  ],
+  "output": {
+    "type": "bool"
+  }
+}

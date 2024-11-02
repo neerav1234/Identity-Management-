@@ -1,0 +1,22 @@
+// def u32tofield(u32[8] x) {
+//     field mut y = 0;
+//     for u32 i in 0..8 {
+//         field f = x[7-i];
+//         y = y + f * (2**(32*i));
+//     }
+//     return y;
+// }
+def fieldtou32(field mut x) {
+    u32[8] mut y = [1, 2, 3, 4, 5, 6, 7, 8];
+    for u32 i in 0..8 {
+        y[7-i] = x / (2**(32*i));
+        x = x%(2**(32*i));
+    }
+    return y;
+}
+
+def main() {
+    field f = 234;
+    u32[8] u = fieldtou32(f);
+    log("{}", u);
+}
